@@ -1,0 +1,41 @@
+﻿@model IEnumerable<scheduler.Models.ApointmentModel>
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>View</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                S.no
+            </th>
+            <th>
+                Username
+            </th>
+            <th>
+               Phone Number 
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+        }
+        @foreach (var item in ViewBag.usersList) {
+            <tr>
+                <td>
+                @index
+                </td>
+                <td>
+                    @item.UserName
+                </td>
+                <td>
+                    @item.PhoneNumber
+                </td>
+            </tr>
+            index++;
+        }
+    </tbody>
+</table>

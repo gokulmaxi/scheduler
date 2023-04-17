@@ -36,7 +36,11 @@ namespace scheduler.Controllers
                         .ToListAsync()) :
                         Problem("Entity set 'schedulerContext.ApointmentModel'  is null.");
         }
-
+        public async Task<IActionResult> UserView()
+        {
+            ViewBag.usersList =_context.Users.ToList();
+            return View(null);
+        }
         // GET: Apointment/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -68,8 +72,9 @@ namespace scheduler.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ApointmentId,ApointmentName,StartDateTime,EndDateTime")] ApointmentModel apointmentModel)
         {
-            apointmentModel.UserId = _context.Users.First();
-                Console.WriteLine(apointmentModel.ApointmentId);
+                System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+                var userID = await _userManager.GetUserAsync(User);
+                apointmentModel.UserId = userID;
                 _context.Add(apointmentModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
